@@ -1,10 +1,13 @@
 import React, { useRef, useState } from 'react'
 import './App.scss';
 import { Canvas, useFrame } from 'react-three-fiber'
+import * as THREE from 'three';
 
 import { softShadows, MeshWobbleMaterial, OrbitControls } from "drei";
 
 import { useSpring, a} from "react-spring/three"
+
+import Terror from './Franchise_Regular.json'
 
 softShadows();
 
@@ -36,9 +39,18 @@ const SpinningMesh = ({position, args, color, speed}) => {
 }
 
 function App() {
+  const font = new THREE.FontLoader().parse(Terror);
+
+  // configure font geometry
+  const textOptions = {
+    font,
+    size: 5,
+    height: 1
+  };
+
   return (
     <>
-      <Canvas shadowMap colorManagement camera={{position: [-5, 2, 10], fov: 60}}>
+      <Canvas shadowMap colorManagement camera={{position: [1, 3, 15], fov: 60}}>
         <ambientLight intensity={0.3}/>
         <directionalLight 
         castShadow
@@ -60,9 +72,17 @@ function App() {
             <planeBufferGeometry attach="geometry" args={[100, 100]}/>
             <shadowMaterial attach="material" opacity={0.3} />
           </mesh>
-        <SpinningMesh position={[0, 1, 0]} args={[3, 2, 1]} color="#D1F7FF" speed={2}/>
+        <SpinningMesh position={[5, -1, -2]} args={[1, 2, 1]} color="#D1F7FF" speed={2}/>
         <SpinningMesh position={[-2, 1, -5]} color="#ffd1f7" speed={4}/>
-        <SpinningMesh position={[5, 1, -2]} color="#ffd1f7" speed={4}/>
+        <SpinningMesh position={[10, 1, -2]} color="#ffd1f7" speed={4}/>
+        <SpinningMesh position={[5, 7, -10]} args={[2, 7, 1]} color="yellow" speed={8}/>
+          <mesh castShadow position={[0, 1, -5]}>
+            <textGeometry attach='geometry' args={['Jake', textOptions]} />
+            <meshStandardMaterial attach='material' color='tan' />
+          </mesh>
+        </group>
+
+        <group>
         </group>
 
 
